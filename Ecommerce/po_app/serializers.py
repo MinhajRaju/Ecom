@@ -34,11 +34,15 @@ class ProductSerializer(serializers.ModelSerializer):
     variation = serializers.SerializerMethodField(read_only=True)
 
     image =  serializers.SerializerMethodField(read_only=True)
+    seller = serializers.SerializerMethodField(read_only=True)
 
 
     class Meta:
         model =  Product
-        fields = ['id'  ,'seller','title','slug', 'flashsale' ,'sku','totalqty','variation' ,'image']
+        fields = ['id'  ,'seller','title','slug', 'flashsale' ,'sku','totalqty','variation' ,'image' ,'tags']
+
+    def get_seller(self , obj):
+        return SellerProfileSerializer(obj.seller , many=False).data   
     def get_variation(self, obj):
         return ProductVariation(obj.product_variation_set.all() , many=True).data
     def get_image(self, obj):

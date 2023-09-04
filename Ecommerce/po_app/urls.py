@@ -5,7 +5,7 @@ from po_app import views
 urlpatterns = [
 
     path('' , views.All  , name='All'),
-    path('singleproduct/<int:pk>/' , views.SingleProduct  , name='All'),
+    path('singleproduct/<str:slug>/' , views.SingleProduct  , name='All'),
     path('create/' , views.Create  , name='Create'),
     path('removeimg/' , views.RemoveImage, name='RemoveImage'),
     path('update/' , views.Update  , name='Upadate'),
@@ -16,7 +16,9 @@ urlpatterns = [
 
 
     path('test/' , views.OrderItemSave  , name='Upadate'),
-
+    path('samestore/<int:id>/' ,  views.SameStore , name='SameStore'),
+    path('relateditem/<str:slug>/' ,  views.RelatedItem , name='RelatedItem'),
+    path('cateogryrelateditem/<str:category>/' ,  views.CategoryRelatedItem , name='RelatedItem'),
 
 
 

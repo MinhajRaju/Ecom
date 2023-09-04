@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import HCF from "./screens/_HCF"
 import Test from "./screens/_Product"
 import Product from "./screens/_Product"
+import CategoryProduct from "./screens/_CategoryProduct"
 
 
 
@@ -40,7 +41,8 @@ export default class App extends React.Component {
             <Route element={< HCF />}>
 
               <Route exact path="/" element={<Dashboard />} />
-              <Route exact path="/product" element={<Product />} />
+              <Route exact path="/product/:slug/" element={<Product />} />
+              <Route exact path="/category/:catname" element={<CategoryProduct />} />
 
             </Route>
 

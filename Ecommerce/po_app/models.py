@@ -2,11 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from seller_app.models import *
 from customer_app.models import *
-
+from admin_app.models import *
 from django.contrib.postgres.fields import ArrayField
 
 from po_app.helper import *
-from django.db.models.signals import pre_save , post_delete
+from django.db.models.signals import pre_save , post_delete , post_save
 
 
 class Product(models.Model):
@@ -16,7 +16,8 @@ class Product(models.Model):
     sku = models.CharField(max_length=150 , null=True , blank=True)
     totalqty=models.CharField(max_length=150 , null=True, blank=True)
     flashsale = models.BooleanField(default=False , null=True , blank=True)
-    discount   = models.IntegerField(default = 0 , null=True , blank=True)
+    discount   = models.IntegerField(default = 0 , null=True , blank=True)    
+    categories = ArrayField(models.CharField(max_length=1000) , null=True , blank=True  )
     #product_image_id  = ArrayField(models.IntegerField(max_length=200) , null=True , blank=True)
 
     def __str__(self):
@@ -36,6 +37,7 @@ class Product_Variation(models.Model):
     color  = models.CharField(max_length=150 , null=True,  blank=True)
     qty  = models.CharField(max_length=150 , null=True,  blank=True)
     size  = models.CharField(max_length=150 , null=True,  blank=True)
+   
     #product_image_id  = ArrayField(models.IntegerField(max_length=200) , null=True , blank=True)
 
     def __str__(self):
@@ -44,7 +46,7 @@ class Product_Variation(models.Model):
 
 
 
-
+from PIL import Image  ,ImageOps
 class Product_Image(models.Model):
 
     seller = models.ForeignKey(Seller_Profile , on_delete=models.CASCADE , null=True , blank=True)
@@ -52,9 +54,12 @@ class Product_Image(models.Model):
     variation  = models.ForeignKey(Product_Variation , on_delete=models.SET_NULL , null=True , blank=True)
     photo = models.ImageField(upload_to=RandomFileName('product_image/'))
 
+
     def save(self, *args, **kwargs):
-            new_image = compress(self.photo)
-            self.photo = new_image
+           
+            new_image = compress(self.photo)            
+            im = Image.open(new_image)      
+            im = ImageOps.exif_transpose(im)
             super().save(*args, **kwargs)
 
 

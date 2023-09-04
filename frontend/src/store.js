@@ -7,6 +7,9 @@ import { FlashSaleReducer } from './Reducers/reducers'
 import { TopCategoryReducer } from './Reducers/reducers'
 import { DashProductReducer } from './Reducers/reducers'
 import { SingleProductReducer } from './Reducers/reducers'
+import { SellerProductShuffleReducer } from './Reducers/reducers'
+import { RelatedItemReducer } from './Reducers/reducers'
+import { CategoryRelatedItemReducer } from './Reducers/reducers'
 
 
 
@@ -19,6 +22,10 @@ const reducer = combineReducers({
     TopCategoryReducer,
     DashProductReducer,
     SingleProductReducer,
+    SellerProductShuffleReducer,
+    RelatedItemReducer,
+    CategoryRelatedItemReducer
+    
 })
 
 

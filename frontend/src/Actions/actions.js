@@ -20,7 +20,21 @@ import {
 
     SINGLE_PRODUCT_REQUEST,
     SINGLE_PRODUCT_SUCCESS,
-    SINGLE_PRODUCT_FAIL
+    SINGLE_PRODUCT_FAIL,
+
+    SELLER_PRO_SHUFFLE_REQUEST,
+    SELLER_PRO_SHUFFLE_SUCCESS,
+    SELLER_PRO_SHUFFLE_FAIL,
+
+    RELATED_ITEM_REQUEST,
+    RELATED_ITEM_SUCCESS,
+    RELATED_ITEM_FAIL,
+
+    CATEGORY_RELATED_ITEM_REQUEST,
+    CATEGORY_RELATED_ITEM_SUCCESS,
+    CATEGORY_RELATED_ITEM_FAIL
+
+
 
 } from "../Constants/constants"
 import axios from 'axios'
@@ -171,7 +185,7 @@ export const DashProductAction = () => async (dispatch) => {
 
 
 
-export const SingleProductAction = (id) => async (dispatch) => {
+export const SingleProductAction = (slug) => async (dispatch) => {
 
     try {
         dispatch({
@@ -184,7 +198,7 @@ export const SingleProductAction = (id) => async (dispatch) => {
         }
 
 
-        const { data } = await axios.get(`/api/po/singleproduct/${id}`, config)
+        const { data } = await axios.get(`/api/po/singleproduct/${slug}`, config)
 
         dispatch({
             type: SINGLE_PRODUCT_SUCCESS,
@@ -204,6 +218,118 @@ export const SingleProductAction = (id) => async (dispatch) => {
 
 
 }
+
+
+
+export const SellerProductShuffleAction = (id) => async (dispatch) => {
+
+    try {
+        dispatch({
+            type: SELLER_PRO_SHUFFLE_REQUEST
+        })
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }
+
+
+        const { data } = await axios.get(`/api/po/samestore/${id}`, config)
+
+        dispatch({
+            type: SELLER_PRO_SHUFFLE_SUCCESS,
+            payload: data
+        })
+
+    }
+    catch (error) {
+
+        dispatch({
+            type: SELLER_PRO_SHUFFLE_FAIL,
+            payload: error.response && error.response.data.detail ? error.response.data.detail : error.message,
+
+        })
+
+    }
+
+
+}
+
+
+
+
+
+export const RelatedItemAction = (id) => async (dispatch) => {
+
+    try {
+        dispatch({
+            type: RELATED_ITEM_REQUEST
+        })
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }
+
+
+        const { data } = await axios.get(`/api/po/relateditem/${id}`, config)
+
+        dispatch({
+            type: RELATED_ITEM_SUCCESS,
+            payload: data
+        })
+
+    }
+    catch (error) {
+
+        dispatch({
+            type: RELATED_ITEM_FAIL,
+            payload: error.response && error.response.data.detail ? error.response.data.detail : error.message,
+
+        })
+
+    }
+
+
+}
+
+
+
+
+export const CategoryRelatedItemAction = (category) => async (dispatch) => {
+
+    try {
+        dispatch({
+            type: CATEGORY_RELATED_ITEM_REQUEST
+        })
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }
+
+
+        const { data } = await axios.get(`/api/po/cateogryrelateditem/${category}`, config)
+
+        dispatch({
+            type: CATEGORY_RELATED_ITEM_SUCCESS,
+            payload: data
+        })
+
+    }
+    catch (error) {
+
+        dispatch({
+            type: CATEGORY_RELATED_ITEM_FAIL,
+            payload: error.response && error.response.data.detail ? error.response.data.detail : error.message,
+
+        })
+
+    }
+
+
+}
+
 
 
 

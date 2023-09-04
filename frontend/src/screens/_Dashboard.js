@@ -168,7 +168,7 @@ export default connect(mapStateToProps)(class Dashboard extends React.Component 
                                             </div>
                                         </div>
                                         <div class="row row-cols-xl-6 row-cols-lg-3 g-2">
-                                            <ProductCard data={this.props.FlashSaleData} tag="Flash Sale" />
+                                            <ProductCard data={this.props.FlashSaleData} tag="Flash Sale" class="item" />
                                         </div>
                                         {this.props.FlashLoading === true ? (
                                             <Spinner />
@@ -209,7 +209,7 @@ export default connect(mapStateToProps)(class Dashboard extends React.Component 
                                             </div>
                                         </div>
                                         <div class="row row-cols-xl-6 row-cols-lg-3 g-2">
-                                            <ProductCard data={this.props.DashProductData} />
+                                            <ProductCard data={this.props.DashProductData}  class="item"/>
                                         </div>
                                         {this.props.DashLoading === true ? (
                                             <Spinner />

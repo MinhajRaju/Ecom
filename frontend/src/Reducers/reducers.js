@@ -17,7 +17,19 @@ import {
 
     SINGLE_PRODUCT_REQUEST,
     SINGLE_PRODUCT_SUCCESS,
-    SINGLE_PRODUCT_FAIL
+    SINGLE_PRODUCT_FAIL,
+
+    SELLER_PRO_SHUFFLE_REQUEST,
+    SELLER_PRO_SHUFFLE_SUCCESS,
+    SELLER_PRO_SHUFFLE_FAIL,
+
+    RELATED_ITEM_REQUEST,
+    RELATED_ITEM_SUCCESS,
+    RELATED_ITEM_FAIL,
+
+    CATEGORY_RELATED_ITEM_REQUEST,
+    CATEGORY_RELATED_ITEM_SUCCESS,
+    CATEGORY_RELATED_ITEM_FAIL
 
 } from "../Constants/constants"
 
@@ -94,6 +106,57 @@ export const SingleProductReducer = (state = {}, action) => {
         case SINGLE_PRODUCT_SUCCESS:
             return { loading: false, SingleProductData: action.payload }
         case SINGLE_PRODUCT_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+
+
+}
+
+export const SellerProductShuffleReducer = (state = {}, action) => {
+
+    switch (action.type) {
+        case SELLER_PRO_SHUFFLE_REQUEST:
+            return { loading: true }
+        case SELLER_PRO_SHUFFLE_SUCCESS:
+            return { loading: false, SellerProductShuffleData: action.payload }
+        case SELLER_PRO_SHUFFLE_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+
+
+}
+
+
+export const RelatedItemReducer = (state = {}, action) => {
+
+    switch (action.type) {
+        case RELATED_ITEM_REQUEST:
+            return { loading: true }
+        case RELATED_ITEM_SUCCESS:
+            return { loading: false, RelatedItemData: action.payload }
+        case RELATED_ITEM_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+
+
+}
+
+
+
+export const CategoryRelatedItemReducer = (state = {}, action) => {
+
+    switch (action.type) {
+        case CATEGORY_RELATED_ITEM_REQUEST:
+            return { loading: true }
+        case CATEGORY_RELATED_ITEM_SUCCESS:
+            return { loading: false, CategoryRelatedItemData: action.payload }
+        case CATEGORY_RELATED_ITEM_FAIL:
             return { loading: false, error: action.payload }
         default:
             return state

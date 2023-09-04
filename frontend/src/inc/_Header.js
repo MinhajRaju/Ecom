@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import store from "../store";
 import { FlashSaleAction } from "../Actions/actions";
 
+
 import Modal from "./_Modal";
 
 const mapStateToProps = (state) => {
@@ -75,7 +76,7 @@ export default connect(mapStateToProps)(class Header extends React.Component {
 
                             </div>
                             <div class="col-xxl-4 col-xl-2 col-lg-3 d-none d-lg-block">
-                                <div class="d-flex align-items-center justify-content-between ms-4">
+                                <div class="d-flex align-items-right  ms-14">
                                     <div class="text-center">
 
                                         <div class="dropdown">
@@ -166,7 +167,7 @@ export default connect(mapStateToProps)(class Header extends React.Component {
                                                     if (level1.parent == null) {
                                                         return (
                                                             <li class="dropdown-menu-list">
-                                                                <a href="javascript:void(0)" onMouseOver={() => { this.funccat1(level1.id) }} class="dropdown-item d-flex justify-content-between mb-1 py-1 ">
+                                                                <a href={`/category/${level1.name}`} onMouseOver={() => { this.funccat1(level1.id) }} class="dropdown-item d-flex justify-content-between mb-1 py-1 ">
                                                                     <div>
                                                                         <svg width="24" height="24" viewBox="0 0 56 56" fill="#3d4f58" xmlns="http://www.w3.org/2000/svg">
                                                                             <path
@@ -190,7 +191,7 @@ export default connect(mapStateToProps)(class Header extends React.Component {
                                                                                 return (
 
                                                                                     <li>
-                                                                                        <a href="javascript:void(0)" class="dropdown-item"><b style={{ textTransform: "uppercase" }}>{level2.name}</b></a>
+                                                                                        <a href={`/category/${level2.name}`} class="dropdown-item"><b style={{ textTransform: "uppercase" }}>{level2.name}</b></a>
 
 
 
@@ -201,7 +202,7 @@ export default connect(mapStateToProps)(class Header extends React.Component {
                                                                                                 return (
 
                                                                                                     <li>
-                                                                                                        <a href="javascript:void(0)" class="dropdown-item">{level3.name}</a>
+                                                                                                        <a href={`/category/${level3.name}`} class="dropdown-item">{level3.name}</a>
                                                                                                     </li>
                                                                                                 )
                                                                                             }

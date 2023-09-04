@@ -42,8 +42,8 @@ def All(request):
 
 
 @api_view(['GET','POST'])
-def SingleProduct(request , pk):
-    product = Product.objects.get(id=pk)
+def SingleProduct(request , slug):
+    product = Product.objects.get(slug=slug)
     serializer = ProductSerializer(product , many=False).data
     return Response(serializer)
 
@@ -231,8 +231,45 @@ def OrderItemSave(request):
 
     return Response()
 
+import random 
+
+@api_view(['GET'])
+def SameStore(request , id):
 
 
+
+    product = random.sample(list(Product.objects.filter(seller=id)) , 2)
+    print(product)
+    
+
+    serializer = ProductSerializer(product , many=True).data
+    return Response(serializer)
+
+
+
+
+
+@api_view(['GET','POST'])
+def RelatedItem(request ,slug):
+    product = Product.objects.get(slug=slug)
+    print(product.categories)
+    categories_wise = random.sample(product.categories , 1)
+    print(categories_wise)
+    product = Product.objects.filter(categories__contains=categories_wise)
+    print(product)
+    serializer = ProductSerializer(product , many=True).data
+    return Response(serializer)
+
+
+
+@api_view(['GET','POST'])
+def CategoryRelatedItem(request ,category):
+    category_id = Category.objects.get(name=category)
+
+    product = Product.objects.filter(categories__contains=[category_id.id])
+    print(product)
+    serializer = ProductSerializer(product , many=True).data
+    return Response(serializer)
 
 
 
@@ -268,7 +305,6 @@ def DashProduct(request , *args , **kwargs):
     print(product)
     serializer =  ProductSerializer(product , many=True).data
     return Response(serializer)
-
 
 
 

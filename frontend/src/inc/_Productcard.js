@@ -12,7 +12,7 @@ export default class ProductCard extends React.Component {
                 {this.props.data == undefined ? null : this.props.data.map((data) => {
 
                     return (
-                        <div class="item">
+                        <div class={this.props.class}>
 
                             <div class="card card-product mb-lg-4">
                                 <div class="card-body">
@@ -32,7 +32,7 @@ export default class ProductCard extends React.Component {
                                         class="text-decoration-none text-muted"><small>Fruits &
                                             Vegetables</small></a>
                                     </div>
-                                    <h2 class="fs-6"><a href="#!" class="text-inherit text-decoration-none">Fresh Apple</a>
+                                    <h2 class="fs-6"><a href="#!" class="text-inherit text-decoration-none">{data.title}</a>
                                     </h2>
                                     <div>
 
