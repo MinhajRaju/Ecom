@@ -8,6 +8,8 @@ import HCF from "./screens/_HCF"
 import Test from "./screens/_Product"
 import Product from "./screens/_Product"
 import CategoryProduct from "./screens/_CategoryProduct"
+import ShopCart from "./screens/_ShopCart"
+import CheckOut from "./screens/_Checkout"
 
 
 
@@ -43,6 +45,8 @@ export default class App extends React.Component {
               <Route exact path="/" element={<Dashboard />} />
               <Route exact path="/product/:slug/" element={<Product />} />
               <Route exact path="/category/:catname" element={<CategoryProduct />} />
+              <Route exact path="/shopcart/" element={<ShopCart />} />
+              <Route exact path="/checkout/" element={<CheckOut />} />
 
             </Route>
 

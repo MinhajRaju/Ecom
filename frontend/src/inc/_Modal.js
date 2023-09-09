@@ -22,8 +22,8 @@ export default connect(mapStateToProps)(class Modal extends React.Component {
                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                     <div class="offcanvas-header border-bottom">
                         <div class="text-start">
-                            <h5 id="offcanvasRightLabel" class="mb-0 fs-4">Shop Cart</h5>
-                            <small>Location in 382480</small>
+                            <h5 id="offcanvasRightLabel" class="mb-0 fs-4">Check List</h5>
+                       
                         </div>
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
@@ -76,12 +76,7 @@ export default connect(mapStateToProps)(class Modal extends React.Component {
                                         <div class="col-4 col-md-3 col-lg-3">
 
 
-                                            <div class="input-group input-spinner  ">
-                                                <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity" />
-                                                <input type="number" step="1" max="10" value="1" name="quantity"
-                                                    class="quantity-field form-control-sm form-input   " />
-                                                <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" />
-                                            </div>
+                                           
                                         </div>
 
                                         <div class="col-2 text-lg-end text-start text-md-end col-md-2">
@@ -105,8 +100,8 @@ export default connect(mapStateToProps)(class Modal extends React.Component {
                             </ul>
 
                             <div class="d-flex justify-content-between mt-4">
-                                <a href="#!" class="btn btn-primary">Continue Shopping</a>
-                                <a href="#!" class="btn btn-dark">Update Cart</a>
+                              
+                                <a href="/shopcart/" class="btn btn-dark">Shop cart</a>
                             </div>
 
                         </div>
@@ -149,6 +144,97 @@ export default connect(mapStateToProps)(class Modal extends React.Component {
                         </div>
                     </div>
                 </div>
+
+
+
+
+                <div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-body p-6">
+          <div class="d-flex justify-content-between mb-5">
+
+            <div>
+              <h5 class="h6 mb-1" id="addAddressModalLabel">New Shipping Address</h5>
+              <p class="small mb-0">Add new shipping address for your order delivery.</p>
+            </div>
+            <div>
+       
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+          </div>
+
+          <div class="row g-3">
+           
+            <div class="col-12">
+              <input type="text" class="form-control" placeholder="First name" aria-label="First name" required="" />
+            </div>
+          
+            <div class="col-12">
+              <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" required="" />
+            </div>
+         
+            <div class="col-12">
+
+              <input type="text" class="form-control" placeholder="Address Line 1" />
+            </div>
+            <div class="col-12">
+        
+              <input type="text" class="form-control" placeholder="Address Line 2" />
+            </div>
+            <div class="col-12">
+           
+              <input type="text" class="form-control" placeholder="City" />
+            </div>
+            <div class="col-12">
+            
+              <select class="form-select">
+                <option selected=""> India</option>
+                <option value="1">UK</option>
+                <option value="2">USA</option>
+                <option value="3">UAE</option>
+              </select>
+            </div>
+            <div class="col-12">
+             
+              <select class="form-select">
+                <option selected="">Gujarat</option>
+                <option value="1">Northern Ireland</option>
+                <option value="2"> Alaska</option>
+                <option value="3">Abu Dhabi</option>
+              </select>
+            </div>
+            <div class="col-12">
+    
+              <input type="text" class="form-control" placeholder="Zip Code" />
+            </div>
+            <div class="col-12">
+
+              <input type="text" class="form-control" placeholder="Business Name" />
+            </div>
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+              
+                <label class="form-check-label" for="flexCheckDefault">
+                  Set as Default
+                </label>
+              </div>
+            </div>
+       
+            <div class="col-12 text-end">
+              <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>
+              <button class="btn btn-primary" type="button">Save Address</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>  
+
+
 
 
             </>
