@@ -31,6 +31,7 @@ export default connect(mapStateToProps)(class Dashboard extends React.Component 
 
     constructor(props) {
         super(props)
+     
 
 
 
@@ -40,7 +41,7 @@ export default connect(mapStateToProps)(class Dashboard extends React.Component 
         store.dispatch(FlashSaleAction())
         store.dispatch(TopCategoryAction(4))
         store.dispatch(DashProductAction())
-
+     
 
     }
 
@@ -48,11 +49,9 @@ export default connect(mapStateToProps)(class Dashboard extends React.Component 
 
 
 
-
-
+    
 
     render() {
-
 
 
 

@@ -4,7 +4,7 @@ from seller_app.models import *
 from customer_app.models import *
 from admin_app.models import *
 from django.contrib.postgres.fields import ArrayField
-
+ 
 from po_app.helper import *
 from django.db.models.signals import pre_save , post_delete , post_save
 
@@ -17,6 +17,7 @@ class Product(models.Model):
     totalqty=models.CharField(max_length=150 , null=True, blank=True)
     flashsale = models.BooleanField(default=False , null=True , blank=True)
     discount   = models.IntegerField(default = 0 , null=True , blank=True)    
+    rating  = models.FloatField(default=0 , null=True , blank=True)
     categories = ArrayField(models.CharField(max_length=1000) , null=True , blank=True  )
     #product_image_id  = ArrayField(models.IntegerField(max_length=200) , null=True , blank=True)
 

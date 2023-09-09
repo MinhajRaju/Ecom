@@ -32,7 +32,14 @@ import {
 
     CATEGORY_RELATED_ITEM_REQUEST,
     CATEGORY_RELATED_ITEM_SUCCESS,
-    CATEGORY_RELATED_ITEM_FAIL
+    CATEGORY_RELATED_ITEM_FAIL,
+
+    CUSTOMER_INFO_REQUEST,
+    CUSTOMER_INFO_SUCCESS,
+    CUSTOMER_INFO_FAIL,
+
+    ADD_TO_CART,
+    REMOVE_FROM_CART
 
 
 
@@ -62,7 +69,7 @@ export const NestedCategoryAction = () => async (dispatch) => {
             type: ALL_NESTED_CATEGORY_SUCCESS,
             payload: data
         })
-        localStorage.setItem('Category', JSON.stringify(data))
+       
 
     }
     catch (error) {
@@ -332,5 +339,72 @@ export const CategoryRelatedItemAction = (category) => async (dispatch) => {
 
 
 
+export const CustomerInfoAction = (id) => async (dispatch) => {
 
+    try {
+        dispatch({
+            type: CUSTOMER_INFO_REQUEST
+        })
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }
+
+
+        const { data } = await axios.get(`/api/customer/read/${id}`, config)
+
+        dispatch({
+            type: CUSTOMER_INFO_SUCCESS,
+            payload: data
+        })
+
+    }
+    catch (error) {
+
+        dispatch({
+            type: CUSTOMER_INFO_FAIL,
+            payload: error.response && error.response.data.detail ? error.response.data.detail : error.message,
+
+        })
+
+    }
+
+
+}
+
+
+export const AddToCart = (slug ,variation=null) => async (dispatch ,getState) => {
+    const { data } = await axios.get(`/api/po/singleproduct/${slug}`)
+
+    dispatch({
+
+        type:ADD_TO_CART,
+        payload:{
+            product:data.id,
+            title:data.title,
+            variationid:variation
+        }
+
+    })
+
+
+    localStorage.setItem('cartItems', JSON.stringify(getState().CartReducer.cartItems))
+
+
+
+
+}
+
+export const RemoveFromCart = (id) => (dispatch, getState) => {
+
+    console.log(id  , "ASfasdfasdfadsfasdfsd")
+
+    dispatch({
+        type: REMOVE_FROM_CART,
+        payload: id,
+    })
+
+    localStorage.setItem('cartItems', JSON.stringify(getState().CartReducer.cartItems))
+}
 

@@ -10,9 +10,20 @@ import { SingleProductReducer } from './Reducers/reducers'
 import { SellerProductShuffleReducer } from './Reducers/reducers'
 import { RelatedItemReducer } from './Reducers/reducers'
 import { CategoryRelatedItemReducer } from './Reducers/reducers'
+import { CustomerInfoReducer } from './Reducers/reducers'
+import { CartReducer } from './Reducers/reducers'
 
 
 
+const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
+
+export const initialstate = {
+
+    cart: {
+        cartItems: cartItemsFromStorage,
+
+    }
+}
 
 
 const reducer = combineReducers({
@@ -24,9 +35,13 @@ const reducer = combineReducers({
     SingleProductReducer,
     SellerProductShuffleReducer,
     RelatedItemReducer,
-    CategoryRelatedItemReducer
+    CategoryRelatedItemReducer,
+    CustomerInfoReducer,
+    CartReducer
     
 })
+
+
 
 
 

@@ -1,7 +1,9 @@
 import React from "react";
 import ReactImageMagnify from 'react-image-magnify';
 import Carousel from 'react-grid-carousel'
-
+import Rating from "../inc/_Rating";
+import { AddToCart } from '../Actions/actions';
+import store from "../store";
 
 
 export default class ImageWithThumb extends React.Component{
@@ -12,7 +14,9 @@ export default class ImageWithThumb extends React.Component{
         this.state = {
             imagePath: null,
             thumbnail: null,
-            variationthumb:null
+            variationthumb:null,
+            variationid: null,
+           
            
         }
 
@@ -20,6 +24,7 @@ export default class ImageWithThumb extends React.Component{
     }
     componentDidMount() {
         setTimeout(this.thumbimage, 3000)   
+      
 
     }
 
@@ -27,6 +32,8 @@ export default class ImageWithThumb extends React.Component{
         this.setState({ imagePath: e.target.getAttribute('src') })
     }
 
+
+    
 
 
     thumbimage = () => {
@@ -52,7 +59,7 @@ export default class ImageWithThumb extends React.Component{
     }
 
     variationimage = (id) => {
-
+        this.setState({variationid:id})
         const x = this.props.data.variation.filter(data => data.id == id)
 
         let y = []
@@ -74,7 +81,7 @@ export default class ImageWithThumb extends React.Component{
 
     render(){
 
-        console.log(this.props.data)
+        console.log("from ----------" ,this.props.data)
         return(
 
             <>
@@ -138,11 +145,8 @@ export default class ImageWithThumb extends React.Component{
 
             <h1 class="mb-1">{this.props.data.title} </h1>
             <div class="mb-4">
-                <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-fill"></i>
-                    <i class="bi bi-star-half"></i></small><a href="#" class="ms-2">(30 reviews)</a></div>
+                <Rating value={this.props.rating} />
+                <a href="#" class="ms-2">({this.props.data.rc.length}  reviews)</a></div>
             <div class="fs-4">
                 <span class="fw-bold text-dark">$32</span> <span
                     class="text-decoration-line-through text-muted">$35</span><span><small class="fs-6 ms-2 text-danger">26%
@@ -198,7 +202,7 @@ export default class ImageWithThumb extends React.Component{
 
                 <div class="col-xxl-4  d-grid">
 
-                    <button type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>Add to
+                    <button onClick={()=>  store.dispatch(AddToCart(this.props.data.slug , this.state.variationid))} type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>Add to
                         cart</button>
                 </div>
 

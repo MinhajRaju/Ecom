@@ -11,12 +11,16 @@ import withRouter from './_Helper';
 import ImageWithThumb from '../Sp_Inc/_Sp_Image_Thumb';
 import ProductShuffle from '../Sp_Inc/_Sp_Shuffle';
 import ProductCarousel from '../inc/_ProductCarousel';
+import { CustomerInfoAction } from '../Actions/actions';
+import Rating from '../inc/_Rating';
+import Dashboard from './_Dashboard';
+
 
 
 
 const mapStateToProps = (state) => {
   
-    return { SingleProductData: state.SingleProductReducer.SingleProductData , shuffleProductData:state.SellerProductShuffleReducer.SellerProductShuffleData ,RelatedItemData:state.RelatedItemReducer.RelatedItemData }
+    return { CustomerInfoData:state.CustomerInfoReducer.CustomerInfoData , SingleProductData: state.SingleProductReducer.SingleProductData , shuffleProductData:state.SellerProductShuffleReducer.SellerProductShuffleData ,RelatedItemData:state.RelatedItemReducer.RelatedItemData }
 
 }
 
@@ -28,15 +32,111 @@ export default withRouter(connect(mapStateToProps)(class Product extends React.C
         super(props)
         store.dispatch(SingleProductAction(this.props.params.slug))
         store.dispatch(RelatedItemAction(this.props.params.slug))
+        store.dispatch(CustomerInfoAction(1))
+
+        this.state = {
+            ratingvalue:null
+        }
+
       
     }
 
 
     componentDidMount() {       
         setTimeout(() =>{
-            store.dispatch(SellerProductShuffleAction(this.props.SingleProductData.seller))
+            store.dispatch(SellerProductShuffleAction(this.props.SingleProductData.seller.id))
         },3000)
+
+        setTimeout(this.rating , 3000)
+
+        
     
+
+    }
+
+    rating  = () =>{
+
+        let x =[]
+        let sum = 0
+        if(this.props.SingleProductData){
+
+            this.props.SingleProductData.rc.map((data)=>{
+
+                x.push(parseInt(data.rating))
+            
+
+            })
+
+        }
+        x.map(x => sum += x )
+
+        const res = sum/this.props.SingleProductData.rc.length
+
+        console.log(res)
+        this.setState({ratingvalue:res})
+
+
+    }
+
+
+
+    reviews = () =>{
+
+        if(this.props.SingleProductData !== undefined && this.props.CustomerInfoData !== undefined ){
+            console.log(this.props.SingleProductData.id , this.props.CustomerInfoData.product_id )
+           const id =this.props.SingleProductData.id
+           
+           const product = this.props.CustomerInfoData.product_id
+           const res = product.includes(id)
+           console.log(res)
+
+           if(res == true){
+           
+            return (
+                <div>
+    
+                                                            <h3 class="mb-5">Create Review</h3>
+    
+    
+    
+                                                            <div class="border-bottom py-4 mb-4">
+                                                                <h5>Add a headline</h5>
+                                                                <input type="text" class="form-control" placeholder="What’s most important to know" />
+                                                            </div>
+                                                            <div class="border-bottom py-4 mb-4">
+                                                                <h5>Add a photo or video</h5>
+                                                                <p>Shoppers find images and videos more helpful than text alone.</p>
+    
+                                                                <form action="#" class=" dropzone profile-dropzone">
+                                                                    <div class="fallback">
+                                                                        <input name="file" type="file" multiple />
+                                                                    </div>
+                                                                </form>
+    
+                                                            </div>
+                                                            <div class=" py-4 mb-4">
+    
+                                                                <h5>Add a written review</h5>
+                                                                <textarea class="form-control" rows="3"
+                                                                    placeholder="What did you like or dislike? What did you use this product for?"></textarea>
+    
+                                                            </div>
+    
+                                                            <div class="d-flex justify-content-end">
+                                                                <a href="#" class="btn btn-primary">Submit Review</a>
+                                                            </div>
+                                                        </div>
+            )
+
+           }
+           
+
+
+        }
+
+       
+
+       
 
     }
 
@@ -48,7 +148,7 @@ export default withRouter(connect(mapStateToProps)(class Product extends React.C
     render() {    
         
         
-
+        
 
         return (
 
@@ -60,7 +160,7 @@ export default withRouter(connect(mapStateToProps)(class Product extends React.C
                 <section class="mt-8" >
                     <div class="container">
                         <div class="row" >
-                            <ImageWithThumb data={this.props.SingleProductData}/>
+                            <ImageWithThumb data={this.props.SingleProductData} rating={this.state.ratingvalue}/>
 
                             
                             <div class="col-md-4" style={{ background: "white" }} >
@@ -176,113 +276,23 @@ export default withRouter(connect(mapStateToProps)(class Product extends React.C
                                         <div class="my-4">
 
                                             <div class="row">
-                                                <div class="col-md-4">
-                                                    <div class="me-lg-12 mb-6 mb-md-0">
-                                                        <div class="mb-5">
-
-                                                            <h4 class="mb-3">Customer reviews</h4>
-                                                            <span>
-                                                                <small class="text-warning"> <i class="bi bi-star-fill"></i>
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                    <i class="bi bi-star-fill"></i>
-                                                                    <i class="bi bi-star-half"></i></small><span class="ms-3">4.1 out of 5</span><small
-                                                                        class="ms-3">11,130 global ratings</small></span>
-                                                        </div>
-                                                        <div class="mb-8">
-
-                                                            <div class="d-flex align-items-center mb-2">
-                                                                <div class="text-nowrap me-3 text-muted"><span
-                                                                    class="d-inline-block align-middle text-muted">5</span><i
-                                                                        class="bi bi-star-fill ms-1 small text-warning"></i></div>
-                                                                <div class="w-100">
-                                                                    <div class="progress" style={{ height: "6px" }}>
-                                                                        <div class="progress-bar bg-warning" role="progressbar" style={{ width: "60%" }}
-                                                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                    </div>
-                                                                </div><span class="text-muted ms-3">53%</span>
-                                                            </div>
-
-                                                            <div class="d-flex align-items-center mb-2">
-                                                                <div class="text-nowrap me-3 text-muted"><span
-                                                                    class="d-inline-block align-middle text-muted">4</span><i
-                                                                        class="bi bi-star-fill ms-1 small text-warning"></i></div>
-                                                                <div class="w-100">
-                                                                    <div class="progress" style={{ height: "6px" }}>
-                                                                        <div class="progress-bar bg-warning" role="progressbar" style={{ width: "50%" }}
-                                                                            aria-valuenow="50" aria-valuemin="0" aria-valuemax="50"></div>
-                                                                    </div>
-                                                                </div><span class="text-muted ms-3">22%</span>
-                                                            </div>
-
-                                                            <div class="d-flex align-items-center mb-2">
-                                                                <div class="text-nowrap me-3 text-muted"><span
-                                                                    class="d-inline-block align-middle text-muted">3</span><i
-                                                                        class="bi bi-star-fill ms-1 small text-warning"></i></div>
-                                                                <div class="w-100">
-                                                                    <div class="progress" style={{ height: "6px" }}>
-                                                                        <div class="progress-bar bg-warning" role="progressbar" style={{ width: "35%" }}
-                                                                            aria-valuenow="35" aria-valuemin="0" aria-valuemax="35"></div>
-                                                                    </div>
-                                                                </div><span class="text-muted ms-3">14%</span>
-                                                            </div>
-
-                                                            <div class="d-flex align-items-center mb-2">
-                                                                <div class="text-nowrap me-3 text-muted"><span
-                                                                    class="d-inline-block align-middle text-muted">2</span><i
-                                                                        class="bi bi-star-fill ms-1 small text-warning"></i></div>
-                                                                <div class="w-100">
-                                                                    <div class="progress" style={{ height: "6px" }}>
-                                                                        <div class="progress-bar bg-warning" role="progressbar" style={{ width: "22%" }}
-                                                                            aria-valuenow="22" aria-valuemin="0" aria-valuemax="22"></div>
-                                                                    </div>
-                                                                </div><span class="text-muted ms-3">5%</span>
-                                                            </div>
-
-                                                            <div class="d-flex align-items-center mb-2">
-                                                                <div class="text-nowrap me-3 text-muted"><span
-                                                                    class="d-inline-block align-middle text-muted">1</span><i
-                                                                        class="bi bi-star-fill ms-1 small text-warning"></i></div>
-                                                                <div class="w-100">
-                                                                    <div class="progress" style={{ height: "6px" }}>
-                                                                        <div class="progress-bar bg-warning" role="progressbar" style={{ width: "14%" }}
-                                                                            aria-valuenow="14" aria-valuemin="0" aria-valuemax="14"></div>
-                                                                    </div>
-                                                                </div><span class="text-muted ms-3">7%</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-grid">
-                                                            <h4>Review this product</h4>
-                                                            <p class="mb-0">Share your thoughts with other customers.</p>
-                                                            <a href="#" class="btn btn-outline-gray-400 mt-4 text-muted">Write the Review</a>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
+                                                
 
                                                 <div class="col-md-8">
                                                     <div class="mb-10">
-                                                        <div class="d-flex justify-content-between align-items-center mb-8">
-                                                            <div>
+                                                   
+                                                        
 
-                                                                <h4>Reviews</h4>
-                                                            </div>
-                                                            <div>
-                                                                <select class="form-select">
-                                                                    <option selected>Top Review</option>
-                                                                    <option value="1">One</option>
-                                                                    <option value="2">Two</option>
-                                                                    <option value="3">Three</option>
-                                                                </select>
-                                                            </div>
+                                                        {this.props.SingleProductData == undefined ? null : this.props.SingleProductData.rc.map((data)=>{
 
-                                                        </div>
-                                                        <div class="d-flex border-bottom pb-6 mb-6">
+                                                            return (
+
+<div class="d-flex border-bottom pb-6 mb-6">
                                                             <img src="../assets/images/avatar/avatar-10.jpg" alt=""
                                                                 class="rounded-circle avatar-lg" />
                                                             <div class="ms-5">
                                                                 <h6 class="mb-1">
-                                                                    Shankar Subbaraman
+                                                                   {data.customer.user.username}
 
                                                                 </h6>
 
@@ -291,17 +301,14 @@ export default withRouter(connect(mapStateToProps)(class Product extends React.C
                                                                     <span class="text-primary ms-3 fw-bold">Verified Purchase</span></p>
 
                                                                 <div class=" mb-2">
-                                                                    <i class="bi bi-star-fill text-warning"></i>
-                                                                    <i class="bi bi-star-fill text-warning"></i>
-                                                                    <i class="bi bi-star-fill text-warning"></i>
-                                                                    <i class="bi bi-star-fill text-warning"></i>
-                                                                    <i class="bi bi-star-fill text-warning"></i>
+
+                                                                    <Rating value={data.rating}/>
+
+
                                                                     <span class="ms-3 text-dark fw-bold">Need to recheck the weight at delivery point</span>
                                                                 </div>
 
-                                                                <p>Product quality is good. But, weight seemed less than 1kg. Since it is being sent in open
-                                                                    package, there is a possibility of pilferage in between. FreshCart sends the veggies and
-                                                                    fruits through sealed plastic covers and Barcode on the weight etc. .</p>
+                                                                <p>{data.comment}</p>
                                                                 <div>
                                                                     <div class="border icon-shape icon-lg border-2 ">
                                                                         <img src="../assets/images/products/product-img-1.jpg" alt=""
@@ -327,44 +334,28 @@ export default withRouter(connect(mapStateToProps)(class Product extends React.C
                                                         </div>
 
 
+                                                            )
+
+                                                        })}
+                                                        
+                                                        
+                                                        
+                                                        
+
+
+
+
+
+
 
                                                         <div>
                                                             <a href="#" class="btn btn-outline-gray-400 text-muted">Read More Reviews</a>
                                                         </div>
                                                     </div>
-                                                    <div>
-
-                                                        <h3 class="mb-5">Create Review</h3>
-
+                                                    
+                                                    {this.reviews()}
 
 
-                                                        <div class="border-bottom py-4 mb-4">
-                                                            <h5>Add a headline</h5>
-                                                            <input type="text" class="form-control" placeholder="What’s most important to know" />
-                                                        </div>
-                                                        <div class="border-bottom py-4 mb-4">
-                                                            <h5>Add a photo or video</h5>
-                                                            <p>Shoppers find images and videos more helpful than text alone.</p>
-
-                                                            <form action="#" class=" dropzone profile-dropzone">
-                                                                <div class="fallback">
-                                                                    <input name="file" type="file" multiple />
-                                                                </div>
-                                                            </form>
-
-                                                        </div>
-                                                        <div class=" py-4 mb-4">
-
-                                                            <h5>Add a written review</h5>
-                                                            <textarea class="form-control" rows="3"
-                                                                placeholder="What did you like or dislike? What did you use this product for?"></textarea>
-
-                                                        </div>
-
-                                                        <div class="d-flex justify-content-end">
-                                                            <a href="#" class="btn btn-primary">Submit Review</a>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

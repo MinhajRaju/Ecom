@@ -2,9 +2,8 @@ from rest_framework import serializers
 from po_app.models import *
 from django.contrib.auth.models import User
 from seller_app.serializers import *
-
-
-
+from admin_app.serializers import *
+from customer_app.serializers import *
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
@@ -35,18 +34,31 @@ class ProductSerializer(serializers.ModelSerializer):
 
     image =  serializers.SerializerMethodField(read_only=True)
     seller = serializers.SerializerMethodField(read_only=True)
+    rc = serializers.SerializerMethodField(read_only=True)
+    category = serializers.SerializerMethodField(read_only=True)
 
 
     class Meta:
         model =  Product
-        fields = ['id'  ,'seller','title','slug', 'flashsale' ,'sku','totalqty','variation' ,'image' ,'tags']
+        fields = ['id'  ,'seller','title','slug', 'flashsale' ,'sku','totalqty','variation' ,'image' ,'rc' ,'rating' ,'category']
 
+ 
     def get_seller(self , obj):
         return SellerProfileSerializer(obj.seller , many=False).data   
     def get_variation(self, obj):
         return ProductVariation(obj.product_variation_set.all() , many=True).data
     def get_image(self, obj):
         return ProductImageSerializer(obj.product_image_set.all(), many=True).data
+    def get_rc(self , obj):
+        return RatingAndCommentSerializer(obj.rating_comment_set.all() , many=True).data
+    def get_category(self , obj):
+        category = []
+        for i in obj.categories:
+            cat = Category.objects.get(id=i)
+            if cat.parent == None:
+                category.append(cat)
+
+        return CategoryNestedSerializer(category , many=True).data
 
 
 

@@ -29,9 +29,18 @@ import {
 
     CATEGORY_RELATED_ITEM_REQUEST,
     CATEGORY_RELATED_ITEM_SUCCESS,
-    CATEGORY_RELATED_ITEM_FAIL
+    CATEGORY_RELATED_ITEM_FAIL,
+
+    CUSTOMER_INFO_REQUEST,
+    CUSTOMER_INFO_SUCCESS,
+    CUSTOMER_INFO_FAIL,
+
+    ADD_TO_CART,
+    REMOVE_FROM_CART
 
 } from "../Constants/constants"
+
+import { initialstate } from "../store"
 
 
 export const NestedcategoryReducer = (state = [], action) => {
@@ -163,4 +172,55 @@ export const CategoryRelatedItemReducer = (state = {}, action) => {
     }
 
 
+}
+
+export const CustomerInfoReducer = (state = {}, action) => {
+
+    switch (action.type) {
+        case CUSTOMER_INFO_REQUEST:
+            return { loading: true }
+        case CUSTOMER_INFO_SUCCESS:
+            return { loading: false, CustomerInfoData: action.payload }
+        case CUSTOMER_INFO_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+
+
+}
+
+
+
+export const CartReducer = (state = { cartItems: initialstate.cart.cartItems }, action) => {
+    switch (action.type) {
+        case ADD_TO_CART :
+            const item = action.payload
+
+            const existItem = state.cartItems.find(x => x.product === item.product)
+
+            if (existItem) {
+                return {
+                    ...state,
+                    cartItems: state.cartItems.map(x =>
+                        x.product === existItem.product ? item : x)
+                }
+
+            } else {
+
+
+                return {
+
+                    cartItems: [...state.cartItems, item]
+                }
+            }
+        case  REMOVE_FROM_CART:
+            return {
+                ...state,
+                cartItems: state.cartItems.filter(x => x.product !== action.payload)
+                }      
+
+        default:
+            return state
+    }
 }
