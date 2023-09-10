@@ -3,6 +3,8 @@ import React from "react";
 import { connect } from "react-redux";
 import store from '../store';
 import { RemoveFromCart } from '../Actions/actions';
+import {  Form } from 'react-bootstrap'
+import { AddToCart } from "../Actions/actions";
 
 const mapStateToProps =  (state) =>{
 
@@ -106,9 +108,24 @@ return (
                   <div class="col-3 col-md-3 col-lg-2">
              
                   <div class="input-group input-spinner  ">
-                    <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity" />
-                    <input type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input   " />
-                    <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" />
+                    
+                    <Form.Control
+                                                                        as="select"
+                                                                        value={data.pqty}
+                                                                        onChange={(e) => store.dispatch(AddToCart(data.slug, data.variation , Number(e.target.value)))}
+
+                                                                    >
+                                                                        {
+
+                                                                            [...Array(data.qty).keys()].map((x) => (
+                                                                                <option key={x + 1} value={x + 1}>
+                                                                                    {x + 1}
+                                                                                </option>
+                                                                            ))
+                                                                        }
+
+                                                                    </Form.Control>
+                   
                   </div>
 
 

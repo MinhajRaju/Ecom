@@ -4,9 +4,18 @@ import Carousel from 'react-grid-carousel'
 import Rating from "../inc/_Rating";
 import { AddToCart } from '../Actions/actions';
 import store from "../store";
+import {  Form } from 'react-bootstrap'
+import { connect } from "react-redux";
 
 
-export default class ImageWithThumb extends React.Component{
+const mapStateToProps =  (state) =>{
+
+    return {cart: state.CartReducer.cartItems}
+}
+
+
+
+export default connect(mapStateToProps)(class ImageWithThumb extends React.Component{
 
     constructor(props){
         super(props)
@@ -16,6 +25,7 @@ export default class ImageWithThumb extends React.Component{
             thumbnail: null,
             variationthumb:null,
             variationid: null,
+            pqty:null
            
            
         }
@@ -81,7 +91,7 @@ export default class ImageWithThumb extends React.Component{
 
     render(){
 
-        console.log("from ----------" ,this.props.data)
+        console.log("from ----------" ,this.props.cart)
         return(
 
             <>
@@ -192,9 +202,22 @@ export default class ImageWithThumb extends React.Component{
 
 
                 <div class="input-group input-spinner  ">
-                    <input type="button" value="-" class="button-minus  btn  btn-sm " data-field="quantity" />
-                    <input type="number" step="1" max="10" value="1" name="quantity" class="quantity-field form-control-sm form-input   " />
-                    <input type="button" value="+" class="button-plus btn btn-sm " data-field="quantity" />
+                <Form.Control
+                                                                        as="select"
+                                                                        value={this.props.cart[0].pqty}
+                                                                        onChange={(e) => this.setState({pqty:e.target.value}) }
+
+                                                                    >
+                                                                        {
+
+                                                                            [...Array(parseInt(this.props.data.totalqty)).keys()].map((x) => (
+                                                                                <option key={x + 1} value={x + 1}>
+                                                                                    {x + 1}
+                                                                                </option>
+                                                                            ))
+                                                                        }
+
+                                                                    </Form.Control>
                 </div>
 
             </div>
@@ -202,7 +225,7 @@ export default class ImageWithThumb extends React.Component{
 
                 <div class="col-xxl-4  d-grid">
 
-                    <button onClick={()=>  store.dispatch(AddToCart(this.props.data.slug , this.state.variationid))} type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>Add to
+                    <button onClick={()=>  store.dispatch(AddToCart(this.props.data.slug , this.state.variationid , this.state.pqty))} type="button" class="btn btn-primary"><i class="feather-icon icon-shopping-bag me-2"></i>Add to
                         cart</button>
                 </div>
 
@@ -220,4 +243,4 @@ export default class ImageWithThumb extends React.Component{
     }
 
 
-}
+})

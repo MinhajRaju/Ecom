@@ -374,7 +374,7 @@ export const CustomerInfoAction = (id) => async (dispatch) => {
 }
 
 
-export const AddToCart = (slug ,variation=null) => async (dispatch ,getState) => {
+export const AddToCart = (slug ,variation=null , qty=1) => async (dispatch ,getState) => {
     const { data } = await axios.get(`/api/po/singleproduct/${slug}`)
 
     dispatch({
@@ -382,8 +382,11 @@ export const AddToCart = (slug ,variation=null) => async (dispatch ,getState) =>
         type:ADD_TO_CART,
         payload:{
             product:data.id,
+            slug:data.slug,
             title:data.title,
-            variationid:variation
+            variationid:variation,
+            qty: parseInt(data.totalqty),
+            pqty: parseInt(qty)
         }
 
     })
