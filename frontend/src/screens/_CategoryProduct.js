@@ -3,14 +3,17 @@ import { connect } from "react-redux";
 import withRouter from "./_Helper";
 import store from "../store";
 import { CategoryRelatedItemAction } from "../Actions/actions";
+import { TotalCategory } from "../Actions/actions";
 import ProductCard from "../inc/_Productcard";
 
+import InfiniteScroll from "react-infinite-scroll-component";
+import Spinner from "../inc/_Spinner";
 
 
 const mapStateToProps = (state)=>{
 
     console.log(state)
-    return {CategoryRelatedData:state.CategoryRelatedItemReducer.CategoryRelatedItemData}
+    return {CategoryRelatedData:state.CategoryRelatedItemReducer.CategoryRelatedItemData , TotalProduct:state.CategoryTotalReducer.TotalCategory }
 
 }
 
@@ -22,16 +25,49 @@ export default  withRouter(connect(mapStateToProps)(class CategoryProduct extend
     constructor(props){
         super(props)
         store.dispatch(CategoryRelatedItemAction(this.props.params.catname))
-        
+        store.dispatch(TotalCategory(this.props.params.catname))
+        this.state = {
 
-
-
+          items: Array.from({ length: 20 }),
+          hasMore: true,
+         
+        }
     }
+
+ 
+
+
+
+  
+
+    fetchMoreData = () => {
+      store.dispatch(CategoryRelatedItemAction(this.props.params.catname))
+
+
+      
+        if (this.state.items.length >= this.props.TotalProduct.totalproduct ) {
+          this.setState({ hasMore: false });
+          return;
+        }
+  
+
+      
+      
+    
+
+      setTimeout(() => {
+        this.setState({
+          items: this.state.items.concat(Array.from({ length: 20 }))
+        });
+      }, 500);
+    };
     
     
     
     
     render(){
+
+        console.log(this.state.items, "ASDFAsdfasdfasdf")
 
         return(
             <>
@@ -232,12 +268,29 @@ export default  withRouter(connect(mapStateToProps)(class CategoryProduct extend
             </div>
           </div>
         
-          <div class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
+         
 
-          
-            < ProductCard  data={this.props.CategoryRelatedData} />
 
-          </div>
+       <InfiniteScroll
+          dataLength={this.state.items.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.hasMore}
+          style={{overflow:"none"}}
+          loader={<Spinner />}
+          endMessage={
+            <p style={{ textAlign: "center" }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+   
+        > 
+         <div class="row g-4 row-cols-xl-4 row-cols-lg-3 row-cols-2 row-cols-md-2 mt-2">
+      <ProductCard data={this.props.CategoryRelatedData}/>
+      </div>
+      </InfiniteScroll>      
+            
+
+        
 
         </section>
       </div>

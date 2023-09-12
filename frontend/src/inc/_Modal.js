@@ -3,6 +3,8 @@ import React from 'react'
 import { connect } from 'react-redux';
 import store from '../store';
 import { RemoveFromCart } from '../Actions/actions';
+import {  Form } from 'react-bootstrap'
+import { AddToCart } from "../Actions/actions";
 
 const mapStateToProps = (state) =>{
 
@@ -14,7 +16,11 @@ export default connect(mapStateToProps)(class Modal extends React.Component {
 
 
     render() {
+      
 
+      const cart = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [];
+
+      const itemsPrice = cart.reduce((acc, item) => acc + item.price * item.pqty, 0).toFixed(2)
       
 
         return (
@@ -75,12 +81,32 @@ export default connect(mapStateToProps)(class Modal extends React.Component {
 
                                         <div class="col-4 col-md-3 col-lg-3">
 
+                                        <div class="input-group input-spinner  ">
+                    
+                    <Form.Control
+                                                                        as="select"
+                                                                        value={data.pqty}
+                                                                        onChange={(e) => store.dispatch(AddToCart(data.slug, data.variation , Number(e.target.value)))}
+
+                                                                    >
+                                                                        {
+
+                                                                            [...Array(data.qty).keys()].map((x) => (
+                                                                                <option key={x + 1} value={x + 1}>
+                                                                                    {x + 1}
+                                                                                </option>
+                                                                            ))
+                                                                        }
+
+                                                                    </Form.Control>
+                   
+                  </div>
 
                                            
                                         </div>
 
                                         <div class="col-2 text-lg-end text-start text-md-end col-md-2">
-                                            <span class="fw-bold">$15.00</span>
+                                            <span class="fw-bold">&#x09F3;{data.pqty * data.price}</span>
                                             <div class="text-decoration-line-through text-muted small">$25.00</div>
                                         </div>
                                     </div>
@@ -100,8 +126,8 @@ export default connect(mapStateToProps)(class Modal extends React.Component {
                             </ul>
 
                             <div class="d-flex justify-content-between mt-4">
-                              
-                                <a href="/shopcart/" class="btn btn-dark">Shop cart</a>
+                            <a href="/checkout/" >Checkout</a>
+                            <span class="fw-bold">Total :  &#x09F3; {itemsPrice}</span>
                             </div>
 
                         </div>
@@ -168,25 +194,17 @@ export default connect(mapStateToProps)(class Modal extends React.Component {
           <div class="row g-3">
            
             <div class="col-12">
-              <input type="text" class="form-control" placeholder="First name" aria-label="First name" required="" />
+              <input type="text" class="form-control" placeholder="Name" aria-label="First name" required="" />
             </div>
-          
-            <div class="col-12">
-              <input type="text" class="form-control" placeholder="Last name" aria-label="Last name" required="" />
-            </div>
+                          <div class="col-12">
+                  
+                  <input type="text" class="form-control" placeholder="Phone Number" />
+                </div>
+                        
+                    
          
-            <div class="col-12">
-
-              <input type="text" class="form-control" placeholder="Address Line 1" />
-            </div>
-            <div class="col-12">
-        
-              <input type="text" class="form-control" placeholder="Address Line 2" />
-            </div>
-            <div class="col-12">
            
-              <input type="text" class="form-control" placeholder="City" />
-            </div>
+         
             <div class="col-12">
             
               <select class="form-select">
@@ -206,22 +224,16 @@ export default connect(mapStateToProps)(class Modal extends React.Component {
               </select>
             </div>
             <div class="col-12">
-    
-              <input type="text" class="form-control" placeholder="Zip Code" />
-            </div>
-            <div class="col-12">
-
-              <input type="text" class="form-control" placeholder="Business Name" />
-            </div>
-            <div class="col-12">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-              
-                <label class="form-check-label" for="flexCheckDefault">
-                  Set as Default
-                </label>
-              </div>
-            </div>
+             
+             <select class="form-select">
+               <option selected="">x</option>
+               <option value="1">r Ireland</option>
+               <option value="2"> w</option>
+               <option value="3">Abu z</option>
+             </select>
+           </div>
+       
+     
        
             <div class="col-12 text-end">
               <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Cancel</button>

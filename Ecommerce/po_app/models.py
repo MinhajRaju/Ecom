@@ -19,6 +19,7 @@ class Product(models.Model):
     discount   = models.IntegerField(default = 0 , null=True , blank=True)    
     rating  = models.FloatField(default=0 , null=True , blank=True)
     categories = ArrayField(models.CharField(max_length=1000) , null=True , blank=True  )
+    price  = models.IntegerField(default=0 , null=True , blank=True)
     #product_image_id  = ArrayField(models.IntegerField(max_length=200) , null=True , blank=True)
 
     def __str__(self):
@@ -77,14 +78,14 @@ pre_save.connect(update_save_image, sender=Product_Image)
 
 class shippingAddress(models.Model):
 
-    customer =  models.ForeignKey(User , null=True , blank=True , on_delete=models.CASCADE)
+    customer =  models.ForeignKey(Customer_Profile , null=True , blank=True , on_delete=models.SET_NULL)
     name = models.CharField(max_length=100 , null=True , blank=True)
     phone_number = models.CharField(max_length=100 , null=True, blank=True)
     region = models.CharField(max_length=100 , null=True, blank=True)
     city = models.CharField(max_length=100 , null=True, blank=True)
     area = models.CharField(max_length=100 , null=True, blank=True)
-    address = models.CharField(max_length=100 , null=True, blank=True)
-    email = models.CharField(max_length=100 , null=True , blank=True)
+
+   
 
     def __str__(self):
         return self.name
@@ -95,13 +96,12 @@ class shippingAddress(models.Model):
 class Order(models.Model):
     customer  = models.ForeignKey(Customer_Profile , on_delete=models.CASCADE , null=True , blank=True)
     shipping = models.ForeignKey(shippingAddress , on_delete=models.CASCADE , null=True , blank=True)
-    seller  =  models.ForeignKey(Seller_Profile , null=True , blank=True , on_delete=models.CASCADE)
-    order_no = models.CharField(max_length = 200 , default=order_no_generate , null=True , blank=True , unique=True)
+   
     status = models.CharField(max_length=200 , null=True , blank=True)
     payment_type = models.CharField(max_length=200 , null=True , blank=True)
     payment_status = models.CharField(max_length=150 , null=True , blank=True)
     grand_total = models.CharField(max_length=150 , null=True , blank=True)
-    total_qty = models.CharField(max_length=150 , null=True , blank=True)
+   
     order_date = models.DateTimeField(auto_now_add=True , blank=True , null=True)
     update_date = models.DateTimeField(auto_now=True, blank=True , null=True)
 
@@ -115,12 +115,19 @@ class Order(models.Model):
 
 class Order_Details(models.Model):
     product=  models.ForeignKey(Product ,  on_delete=models.CASCADE)
-    order= models.ForeignKey(Order , on_delete=models.CASCADE , null=True , blank=True)
+    order_no= models.ForeignKey(Order , on_delete=models.CASCADE , null=True , blank=True)
     seller = models.ForeignKey(Seller_Profile , on_delete=models.CASCADE , null=True , blank=True)
+    variation_id = models.ForeignKey(Product_Variation , on_delete=models.SET_NULL , null=True , blank=True)
     order_date = models.DateTimeField(auto_now_add=True , blank=True , null=True)
-    update_date = models.DateTimeField(auto_now=True, blank=True , null=True)
-    retail_price = models.IntegerField(null=True , blank=True)
+    update_date = models.DateTimeField(auto_now=True, blank=True , null=True)   
     qty = models.IntegerField(null=True  , blank=True)
+    tprice = models.IntegerField(null=True , blank=True)
+
+
+    def save(self , *args , **kwargs):
+        tprice = self.product.price *  self.qty
+        self.tprice = tprice
+        super().save(*args , **kwargs)
 
 
 

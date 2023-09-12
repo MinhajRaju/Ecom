@@ -15,10 +15,18 @@ urlpatterns = [
 
 
 
-    path('test/' , views.OrderItemSave  , name='Upadate'),
+    path('orderitemsave/' , views.OrderItemSave  , name='OrderItemSave'),
+    
+    path('shippingaddress/<int:userid>/' , views.ShippingAddress  , name='Upadate'),
+
+
+
+
+    
     path('samestore/<int:id>/' ,  views.SameStore , name='SameStore'),
     path('relateditem/<str:slug>/' ,  views.RelatedItem , name='RelatedItem'),
-    path('cateogryrelateditem/<str:category>/' ,  views.CategoryRelatedItem , name='RelatedItem'),
+    path('cateogryrelateditem/<str:category>/<int:num_product>/' ,  views.CategoryRelatedItem , name='RelatedItem'),
+     path('categorytotal/<str:category>/' ,  views.CatTotal , name='RelatedItem'),
 
 
 

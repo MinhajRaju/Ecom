@@ -36,7 +36,16 @@ import {
     CUSTOMER_INFO_FAIL,
 
     ADD_TO_CART,
-    REMOVE_FROM_CART
+    REMOVE_FROM_CART,
+
+    
+    SHIPPING_ADDRESS_REQUEST,
+    SHIPPING_ADDRESS_SUCCESS,
+    SHIPPING_ADDRESS_FAIL,
+
+    ORDER_ITEM_SAVE,
+    ORDER_ITEM_SAVE_FAIL,
+    CATEGORY_TOTAL
 
 } from "../Constants/constants"
 
@@ -165,6 +174,8 @@ export const CategoryRelatedItemReducer = (state = {}, action) => {
             return { loading: true }
         case CATEGORY_RELATED_ITEM_SUCCESS:
             return { loading: false, CategoryRelatedItemData: action.payload }
+        case CATEGORY_TOTAL:
+            return {TotalCategory:action.payload}
         case CATEGORY_RELATED_ITEM_FAIL:
             return { loading: false, error: action.payload }
         default:
@@ -173,6 +184,23 @@ export const CategoryRelatedItemReducer = (state = {}, action) => {
 
 
 }
+export const CategoryTotalReducer = (state = {}, action) => {
+
+    switch (action.type) {        
+        case CATEGORY_TOTAL:
+            return {TotalCategory:action.payload}      
+        default:
+            return state
+    }
+
+
+}
+
+
+
+
+
+
 
 export const CustomerInfoReducer = (state = {}, action) => {
 
@@ -224,3 +252,35 @@ export const CartReducer = (state = { cartItems: initialstate.cart.cartItems }, 
             return state
     }
 }
+
+export const ShippingReducers = (state = {}, action) => {
+
+    switch (action.type) {
+        case SHIPPING_ADDRESS_REQUEST:
+            return { loading: true }
+        case SHIPPING_ADDRESS_SUCCESS:
+            return { loading: false, ShippingAddressData: action.payload }
+        case SHIPPING_ADDRESS_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+
+
+}
+
+export const OrderItemReducers = (state = {}, action) => {
+
+    switch (action.type) {
+       
+        case ORDER_ITEM_SAVE:
+            return { loading: false, OrderItemSave: "Success" }
+        case ORDER_ITEM_SAVE_FAIL:
+            return { loading: false, error: action.payload }
+        default:
+            return state
+    }
+
+
+}
+

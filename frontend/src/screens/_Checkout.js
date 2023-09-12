@@ -3,17 +3,33 @@ import React from "react";
 import { connect } from "react-redux";
 import store from '../store';
 import { RemoveFromCart } from '../Actions/actions';
+import { ShippingAddress } from "../Actions/actions";
+import { OrderItemSave } from "../Actions/actions";
+
 
 const mapStateToProps =  (state) =>{
 
-        return {cart: state.CartReducer.cartItems}
+        return {cart: state.CartReducer.cartItems , shippingInfo:state.ShippingReducers.ShippingAddressData}
 }
 
 
 export default connect(mapStateToProps)(class CheckOut extends React.Component{
 
 
+
+    constructor(props){
+      super(props)
+      store.dispatch(ShippingAddress(1))
+    
+    }
+
+
+
     render(){
+
+      const cart = JSON.parse(localStorage.getItem('cartItems'));
+      const itemsPrice = cart.reduce((acc, item) => acc + item.price * item.pqty, 0).toFixed(2)
+      const tship = Number(itemsPrice) + 100
 
         return (
             <>
@@ -62,44 +78,43 @@ export default connect(mapStateToProps)(class CheckOut extends React.Component{
                   data-bs-parent="#accordionFlushExample">
                   <div class="mt-5">
                     <div class="row">
-                      <div class="col-lg-6 col-12 mb-4">
-                    
-                        <div class="card card-body p-6 ">
-                          <div class="form-check mb-4">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio" checked />
-                            <label class="form-check-label text-dark" for="homeRadio">
-                              Home
-                            </label>
-                          </div>
-                         
-                          <address> <strong>Jitu Chauhan</strong> <br />
 
-                            4450 North Avenue Oakland, <br />
+                      {this.props.shippingInfo == undefined ? null : this.props.shippingInfo.map((data)=>{
+                        
+                        return (
 
-                            Nebraska, United States,<br />
+                    <div class="col-lg-6 col-12 mb-4">
+                                        
+                                        <div class="card card-body p-6 ">
+                                          <div class="form-check mb-4">
+                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio" checked />
+                                            <label class="form-check-label text-dark" for="homeRadio">
+                                             
+                                            </label>
+                                          </div>
+                                        
+                                          <address> <strong>{data.name}</strong> <br />
 
-                            <abbr title="Phone">P: 402-776-1106</abbr></address>
-                          <span class="text-danger">Default address </span>
+                                            {data.region}, <br />
 
-                        </div>
-                      </div>
-                      <div class="col-lg-6 col-12 mb-4">
-                 
-                        <div class="card card-body p-6 ">
-                          <div class="form-check mb-4">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="officeRadio" />
-                            <label class="form-check-label text-dark" for="officeRadio">
-                              Office
-                            </label>
-                          </div>
-                          <address> <strong>Nitu Chauhan</strong> <br /> 3853 Coal Road, <br />
-                            Tannersville, Pennsylvania, 18372, USA,<br />
+                                            {data.city}, {data.area}<br />
 
-                            <abbr title="Phone">P: 402-776-1106</abbr>
-                          </address>
+                                            <abbr title="Phone">Phone: {data.phone_number}</abbr></address>
+                                         
 
-                        </div>
-                      </div>
+                                        </div>
+                            </div>
+
+                        )
+
+                      })}
+
+                      
+
+
+
+
+                      
                     </div>
                   </div>
                 </div>
@@ -238,7 +253,7 @@ export default connect(mapStateToProps)(class CheckOut extends React.Component{
                         <a href="#" class="btn btn-outline-gray-400 text-muted"
                           data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false"
                           aria-controls="flush-collapseThree">Prev</a>
-                        <a href="#" class="btn btn-primary ms-2">Place Order</a>
+                        <a href="#" class="btn btn-primary ms-2" onClick={()=> store.dispatch(OrderItemSave())}>Place Order</a>
                       </div>
                     </div>
                   </div>
@@ -271,11 +286,11 @@ export default connect(mapStateToProps)(class CheckOut extends React.Component{
 
                       </div>
                       <div class="col-2 col-md-2 text-center text-muted">
-                        <span>1</span>
+                        <span>{data.pqty}</span>
 
                       </div>
                       <div class="col-3 text-lg-end text-start text-md-end col-md-3">
-                        <span class="fw-bold">$5.00</span>
+                        <span class="fw-bold">{data.price *data.pqty}</span>
 
                       </div>
                     </div>
@@ -302,19 +317,19 @@ export default connect(mapStateToProps)(class CheckOut extends React.Component{
 
                       </div>
                       <div class="fw-bold">
-                        $70.00
+                        {itemsPrice}
 
                       </div>
 
                     </div>
                     <div class="d-flex align-items-center justify-content-between  ">
                       <div>
-                        Service Fee <i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip"
+                        Shipping Fee<i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip"
                           title="Default tooltip"></i>
 
                       </div>
                       <div class="fw-bold">
-                        $3.00
+                        100
 
                       </div>
 
@@ -328,7 +343,7 @@ export default connect(mapStateToProps)(class CheckOut extends React.Component{
                         Subtotal
                       </div>
                       <div>
-                        $73.00
+                        {tship}
 
 
                       </div>

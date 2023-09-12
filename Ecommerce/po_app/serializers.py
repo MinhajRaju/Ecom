@@ -40,7 +40,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model =  Product
-        fields = ['id'  ,'seller','title','slug', 'flashsale' ,'sku','totalqty','variation' ,'image' ,'rc' ,'rating' ,'category']
+        fields = ['id'  ,'seller','title','slug', 'flashsale' ,'sku','totalqty','variation' ,'image' ,'rc' ,'rating' ,'category' ,'price']
 
  
     def get_seller(self , obj):
@@ -63,6 +63,14 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 
+class ShippingAdressSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = shippingAddress
+        fields ='__all__'
+
+
+
 
 
 class OrderDetailSerializer(serializers.ModelSerializer):
@@ -82,5 +90,8 @@ class OrderSerailizer(serializers.ModelSerializer):
 
     def get_order(self , obj):
         return OrderDetailSerializer(obj.order_details_set.all(), many=True).data
+
+
+
 
 

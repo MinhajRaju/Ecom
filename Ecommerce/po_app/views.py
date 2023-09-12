@@ -185,45 +185,51 @@ def RemoveImage(request):
 def OrderItemSave(request):
     data = request.data
 
+    cartitem = data['cartItems']
+
     customerinstance = Customer_Profile.objects.get(id=3)
-    shippingAddressinstance = shippingAddress.objects.get(id=1)
+    shippingAddressinstance = shippingAddress.objects.get(id=2)
 
-    cartProduct = [{"product":32,"title":"masuda 2","qty":2,"mrp":0,"slug":"masuda-2","countInStock":700,"sellerId":2},
-    {"product":33,"title":"masuda","qty":2,"mrp":0,"slug":"masuda","countInStock":798,"sellerId":2},
-     {"product":32,"title":"masuda","qty":2,"mrp":0,"slug":"masuda","countInStock":798,"sellerId":6},]
 
-    x = [i['sellerId'] for i in cartProduct]
+    x = [i['seller'] for i in cartitem]
     sellerid  = set(x)
 
 
 
-    for i in sellerid:
 
-        sellerinstance  = Seller_Profile.objects.get(id=i)
-
-        orderInstance = Order.objects.create(
-            customer = customerinstance,
-            shipping = shippingAddressinstance,
-            seller  = sellerinstance,
-            status = "Hold",
-            payment_status = "paid"
-        )
+    orderInstance = Order.objects.create(
+        customer = customerinstance,
+        shipping = shippingAddressinstance,
+        
+        status = "Hold",
+        payment_status = "paid"
+    )
 
 
 
         #lambda argument(s) : expression
-        x = filter(lambda cart: cart['sellerId'] == i , cartProduct)
-        itemlist = list(x)
 
+
+    for i in sellerid:
+        x = filter(lambda cart: cart['seller'] == i , cartitem)
+        itemlist = list(x)
+        sellerinstance  = Seller_Profile.objects.get(id=i)
 
         for j in itemlist:
 
             product = Product.objects.get(id=j['product'])
+            if j['variationid'] != None:
+                variation = Product_Variation.objects.get(id=j['variationid'])
+            else:
+                variation = j['variationid']
 
             Order_Details.objects.create(
                 product = product,
-                order = orderInstance,
-                seller = sellerinstance
+                order_no = orderInstance,
+                seller = sellerinstance,
+                variation_id = variation,
+                qty = j['pqty']
+
 
             )
 
@@ -263,13 +269,26 @@ def RelatedItem(request ,slug):
 
 
 @api_view(['GET','POST'])
-def CategoryRelatedItem(request ,category):
+def CategoryRelatedItem(request ,category  , **kwargs):
+    num_of_product = kwargs.get('num_product')
     category_id = Category.objects.get(name=category)
 
-    product = Product.objects.filter(categories__contains=[category_id.id])
+    product = Product.objects.filter(categories__contains=[category_id.id])[0:num_of_product]
     print(product)
+  
     serializer = ProductSerializer(product , many=True).data
-    return Response(serializer)
+    return Response(serializer  )
+
+
+
+@api_view(['GET','POST'])
+def CatTotal(request ,category  , **kwargs):
+    category_id = Category.objects.get(name=category)
+    product = Product.objects.filter(categories__contains=[category_id.id]) 
+    l = len(product)
+    print(l)
+    return Response({'totalproduct':l})
+
 
 
 
@@ -305,6 +324,19 @@ def DashProduct(request , *args , **kwargs):
     print(product)
     serializer =  ProductSerializer(product , many=True).data
     return Response(serializer)
+
+
+
+@api_view(['GET' , 'PSOT'])
+def ShippingAddress(request , userid):
+    customer = Customer_Profile.objects.get(id=userid)
+    shippingaddress = shippingAddress.objects.filter(customer = customer)
+    print(shippingaddress)
+
+    serializers  = ShippingAdressSerializer(shippingaddress , many=True).data
+
+    return Response(serializers)
+
 
 
 

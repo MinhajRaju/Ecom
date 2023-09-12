@@ -158,7 +158,7 @@ export default connect(mapStateToProps)(class ImageWithThumb extends React.Compo
                 <Rating value={this.props.rating} />
                 <a href="#" class="ms-2">({this.props.data.rc.length}  reviews)</a></div>
             <div class="fs-4">
-                <span class="fw-bold text-dark">$32</span> <span
+                <span class="fw-bold text-dark">&#x09F3;{this.props.data.price}</span> <span
                     class="text-decoration-line-through text-muted">$35</span><span><small class="fs-6 ms-2 text-danger">26%
                         Off</small></span>
             </div>
@@ -191,7 +191,7 @@ export default connect(mapStateToProps)(class ImageWithThumb extends React.Compo
                     })}
 
 
-                </div>
+                </div> 
 
                 {this.state.variationthumb === null ? null : (<button onClick={this.closethumb} type="button" class="btn-close me-2 m-auto" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>)}
 
@@ -204,7 +204,7 @@ export default connect(mapStateToProps)(class ImageWithThumb extends React.Compo
                 <div class="input-group input-spinner  ">
                 <Form.Control
                                                                         as="select"
-                                                                        value={this.props.cart[0].pqty}
+                                                                        value={this.props.cart.length == 0 ? null : this.props.cart[0].pqty}
                                                                         onChange={(e) => this.setState({pqty:e.target.value}) }
 
                                                                     >

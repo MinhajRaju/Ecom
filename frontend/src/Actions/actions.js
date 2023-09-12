@@ -39,7 +39,15 @@ import {
     CUSTOMER_INFO_FAIL,
 
     ADD_TO_CART,
-    REMOVE_FROM_CART
+    REMOVE_FROM_CART,
+
+    SHIPPING_ADDRESS_REQUEST,
+    SHIPPING_ADDRESS_SUCCESS,
+    SHIPPING_ADDRESS_FAIL,
+
+    ORDER_ITEM_SAVE,
+    ORDER_ITEM_SAVE_FAIL,
+    CATEGORY_TOTAL
 
 
 
@@ -301,7 +309,7 @@ export const RelatedItemAction = (id) => async (dispatch) => {
 }
 
 
-
+let catvisible = 10
 
 export const CategoryRelatedItemAction = (category) => async (dispatch) => {
 
@@ -315,8 +323,9 @@ export const CategoryRelatedItemAction = (category) => async (dispatch) => {
             }
         }
 
-
-        const { data } = await axios.get(`/api/po/cateogryrelateditem/${category}`, config)
+        catvisible += 10
+        const { data } = await axios.get(`/api/po/cateogryrelateditem/${category}/${catvisible}`, config)
+       
 
         dispatch({
             type: CATEGORY_RELATED_ITEM_SUCCESS,
@@ -333,6 +342,29 @@ export const CategoryRelatedItemAction = (category) => async (dispatch) => {
         })
 
     }
+
+
+}
+export const TotalCategory = (category) => async (dispatch) => {
+
+    
+       
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }
+
+
+        const { data } = await axios.get(`/api/po/categorytotal/${category}`, config)
+
+        dispatch({
+            type: CATEGORY_TOTAL,
+            payload: data
+        })
+
+
+    
 
 
 }
@@ -383,10 +415,12 @@ export const AddToCart = (slug ,variation=null , qty=1) => async (dispatch ,getS
         payload:{
             product:data.id,
             slug:data.slug,
+            price:data.price,
             title:data.title,
             variationid:variation,
             qty: parseInt(data.totalqty),
-            pqty: parseInt(qty)
+            pqty: parseInt(qty),
+            seller : data.seller.user.id
         }
 
     })
@@ -410,4 +444,91 @@ export const RemoveFromCart = (id) => (dispatch, getState) => {
 
     localStorage.setItem('cartItems', JSON.stringify(getState().CartReducer.cartItems))
 }
+
+
+
+export const ShippingAddress = (userid) => async (dispatch) => {
+
+    try {
+        dispatch({
+            type: SHIPPING_ADDRESS_REQUEST
+        })
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }
+
+
+        const { data } = await axios.get(`/api/po/shippingaddress/${userid}`, config)
+
+        dispatch({
+            type: SHIPPING_ADDRESS_SUCCESS,
+            payload: data
+        })
+
+    }
+    catch (error) {
+
+        dispatch({
+            type: SHIPPING_ADDRESS_FAIL,
+            payload: error.response && error.response.data.detail ? error.response.data.detail : error.message,
+
+        })
+
+    }
+
+
+
+
+
+
+}
+
+
+
+export const OrderItemSave = () => async (dispatch , getState) => {
+
+    try {
+        dispatch({
+            type: ORDER_ITEM_SAVE
+        })
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }
+
+        const {cartItems} = getState().CartReducer
+        console.log("Cartitem" , cartItems)
+
+        const parameter = {
+
+            cartItems
+           
+    
+    
+    
+        }
+
+
+        await axios.post(`/api/po/orderitemsave/`, parameter,config)
+
+     
+
+    }
+    catch (error) {
+
+        dispatch({
+            type: SHIPPING_ADDRESS_FAIL,
+            payload: error.response && error.response.data.detail ? error.response.data.detail : error.message,
+
+        })
+
+    }
+
+
+}
+
+
 
