@@ -45,7 +45,11 @@ import {
 
     ORDER_ITEM_SAVE,
     ORDER_ITEM_SAVE_FAIL,
-    CATEGORY_TOTAL
+    
+    
+    CATEGORY_TOTAL,
+    BRAND_REQUEST,
+    FILTER_DATA
 
 } from "../Constants/constants"
 
@@ -196,6 +200,18 @@ export const CategoryTotalReducer = (state = {}, action) => {
 
 }
 
+export const BrandTotalReducer = (state = {}, action) => {
+
+    switch (action.type) {        
+        case BRAND_REQUEST:
+            return {TotalBrand:action.payload}      
+        default:
+            return state
+    }
+
+
+}
+
 
 
 
@@ -283,4 +299,20 @@ export const OrderItemReducers = (state = {}, action) => {
 
 
 }
+
+
+export const FilterItemReducers = (state = {}, action) => {
+
+    switch (action.type) {
+       
+        case FILTER_DATA:
+            return { loading: false, FilterItemData: action.payload }
+       
+        default:
+            return state
+    }
+
+
+}
+
 

@@ -11,6 +11,7 @@ from django.db.models.signals import pre_save , post_delete , post_save
 
 class Product(models.Model):
     seller = models.ForeignKey(Seller_Profile , on_delete=models.CASCADE , null=True , blank=True)
+    brand = models.ForeignKey(Brand , on_delete=models.SET_NULL , null=True , blank=True)
     title = models.CharField(max_length=200 , null=True , blank=True)
     slug = models.SlugField(max_length=250 , null=True , blank=True)
     sku = models.CharField(max_length=150 , null=True , blank=True)

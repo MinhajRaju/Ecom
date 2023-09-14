@@ -22,16 +22,24 @@ class Rating_Comment(models.Model):
 
     def save(self, *args, **kwargs):
            
+            
+            
+            
             product = Product.objects.get(id=self.product_id.id)
             rating  = Rating_Comment.objects.filter(product_id  = product)
 
-            x = []
-            for i in rating:
-                 x.append(i.rating)
-            res  = sum(x)/len(x)
-            print(res)
-            Product.objects.filter(id=self.product_id.id).update(rating=res)
-            super().save(*args, **kwargs)
+            if len(rating) == 0:
+               
+               super().save(*args, **kwargs)
+            else:
+                x = []
+                for i in rating:
+                    x.append(i.rating)
+                print(len(x) , sum(x))       
+                res  = sum(x)/len(x)
+                print(res)
+                Product.objects.filter(id=self.product_id.id).update(rating=round(res))
+                super().save(*args, **kwargs)
     
 
 

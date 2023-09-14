@@ -40,7 +40,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model =  Product
-        fields = ['id'  ,'seller','title','slug', 'flashsale' ,'sku','totalqty','variation' ,'image' ,'rc' ,'rating' ,'category' ,'price']
+        fields = ['id'  ,'brand' ,'seller','title','slug', 'flashsale' ,'sku','totalqty','variation' ,'image' ,'rc' ,'rating' ,'category' ,'price']
 
  
     def get_seller(self , obj):
@@ -69,6 +69,11 @@ class ShippingAdressSerializer(serializers.ModelSerializer):
         model = shippingAddress
         fields ='__all__'
 
+
+class BrandSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Brand
+        fields = '__all__'
 
 
 

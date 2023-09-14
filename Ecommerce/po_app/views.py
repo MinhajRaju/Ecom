@@ -14,7 +14,7 @@ from admin_app.serializers import *
 from customer_app.serializers import *
 from po_app.serializers import *
 from seller_app.serializers import *
-
+from django.db.models import Q
 import random
 
 
@@ -271,10 +271,16 @@ def RelatedItem(request ,slug):
 @api_view(['GET','POST'])
 def CategoryRelatedItem(request ,category  , **kwargs):
     num_of_product = kwargs.get('num_product')
+    fprice  =kwargs.get('fprice')
     category_id = Category.objects.get(name=category)
 
-    product = Product.objects.filter(categories__contains=[category_id.id])[0:num_of_product]
-    print(product)
+    if fprice == 'L2H':
+        product = Product.objects.filter(categories__contains=[category_id.id]).order_by('price')[0:num_of_product]
+    elif fprice =='H2L':
+        product = Product.objects.filter(categories__contains=[category_id.id]).order_by('-price')[0:num_of_product]
+    else:
+        product = Product.objects.filter(categories__contains=[category_id.id])[0:num_of_product]  
+ 
   
     serializer = ProductSerializer(product , many=True).data
     return Response(serializer  )
@@ -288,6 +294,46 @@ def CatTotal(request ,category  , **kwargs):
     l = len(product)
     print(l)
     return Response({'totalproduct':l})
+
+
+
+
+@api_view(['GET','POST'])
+def CatRelatedBrand(request ,category  , **kwargs):
+    category_id = Category.objects.get(name=category)
+    brand = Brand.objects.filter(category=category_id) 
+    
+    serializer = BrandSerializer(brand , many=True).data
+    
+    return Response(serializer)
+
+
+
+@api_view(['GET','POST'])
+def FilterRelatedItem(request , **kwargs):
+    fprice  =kwargs.get('fprice')
+    print(request.data)
+    category_id = Category.objects.get(name=request.data['CatId']) 
+
+
+
+
+    if fprice== 'L2H':
+        product = Product.objects.filter(categories__contains=[category_id.id]).filter(Q(price__range=(request.data['Min'] ,request.data['Max'])) | Q(rating__in=request.data['RatingArray']) | Q(brand__in=request.data['BrandIdArray'])).order_by('price')
+     
+    elif fprice == 'H2L':
+        product = Product.objects.filter(categories__contains=[category_id.id]).filter(Q(price__range=(request.data['Min'] ,request.data['Max'])) | Q(rating__in=request.data['RatingArray']) | Q(brand__in=request.data['BrandIdArray'])).order_by('-price')
+     
+    else:
+        product = Product.objects.filter(categories__contains=[category_id.id]).filter(Q(price__range=(request.data['Min'] ,request.data['Max'])) | Q(rating__in=request.data['RatingArray']) | Q(brand__in=request.data['BrandIdArray']))
+   
+
+
+
+    serializer = ProductSerializer(product , many=True).data  
+    
+    return Response(serializer)
+
 
 
 

@@ -7,7 +7,9 @@ import store from "../store";
 export default class ProductCard extends React.Component {
 
     render() {
-        console.log("asdfasd", this.props.data)
+       
+
+
 
         return (
             <>
@@ -70,8 +72,8 @@ export default class ProductCard extends React.Component {
                                     </div>
 
                                     <div class="d-flex justify-content-between align-items-center mt-3">
-                                        <div><span class="text-dark">$18</span> <span
-                                            class="text-decoration-line-through text-muted">$24</span>
+                                        <div><span class="text-dark">{data.price}</span> <span
+                                            class="text-decoration-line-through text-muted"></span>
                                         </div>
 
                                         {data.variation.length == 0 ?(

@@ -21,12 +21,15 @@ urlpatterns = [
 
 
 
-
     
     path('samestore/<int:id>/' ,  views.SameStore , name='SameStore'),
     path('relateditem/<str:slug>/' ,  views.RelatedItem , name='RelatedItem'),
-    path('cateogryrelateditem/<str:category>/<int:num_product>/' ,  views.CategoryRelatedItem , name='RelatedItem'),
-     path('categorytotal/<str:category>/' ,  views.CatTotal , name='RelatedItem'),
+    path('cateogryrelateditem/<str:category>/<int:num_product>/<str:fprice>/' ,  views.CategoryRelatedItem , name='RelatedItem'),
+    path('categorytotal/<str:category>/' ,  views.CatTotal , name='RelatedItem'),
+
+    path('brand/<str:category>/' , views.CatRelatedBrand , name="CatRelatedBrand"),
+
+    path('filter/' ,  views.FilterRelatedItem , name='FilterRelatedItem'),
 
 
 

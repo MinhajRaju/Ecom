@@ -47,7 +47,10 @@ import {
 
     ORDER_ITEM_SAVE,
     ORDER_ITEM_SAVE_FAIL,
-    CATEGORY_TOTAL
+    CATEGORY_TOTAL,
+
+    BRAND_REQUEST,
+    FILTER_DATA
 
 
 
@@ -311,7 +314,7 @@ export const RelatedItemAction = (id) => async (dispatch) => {
 
 let catvisible = 10
 
-export const CategoryRelatedItemAction = (category) => async (dispatch) => {
+export const CategoryRelatedItemAction = (category , fprice) => async (dispatch) => {
 
     try {
         dispatch({
@@ -324,7 +327,7 @@ export const CategoryRelatedItemAction = (category) => async (dispatch) => {
         }
 
         catvisible += 10
-        const { data } = await axios.get(`/api/po/cateogryrelateditem/${category}/${catvisible}`, config)
+        const { data } = await axios.get(`/api/po/cateogryrelateditem/${category}/${catvisible}/${fprice}`, config)
        
 
         dispatch({
@@ -346,7 +349,6 @@ export const CategoryRelatedItemAction = (category) => async (dispatch) => {
 
 }
 export const TotalCategory = (category) => async (dispatch) => {
-
     
        
         const config = {
@@ -355,19 +357,76 @@ export const TotalCategory = (category) => async (dispatch) => {
             }
         }
 
-
         const { data } = await axios.get(`/api/po/categorytotal/${category}`, config)
 
         dispatch({
             type: CATEGORY_TOTAL,
             payload: data
         })
+}
 
 
-    
+
+export const BrandTotalAction =  (category) => async(dispatch) =>{
+
+    const config = {
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }
+
+    const {data} = await axios.get(`/api/po/brand/${category}`, config)
+
+    dispatch({
+        type:BRAND_REQUEST,
+        payload:data
+    })
 
 
 }
+
+
+
+export const FilterItemAction =  (idArray=[] ,catid , ratingArray=[] , min , max ) => async(dispatch) =>{
+
+    const config = {
+        headers: {
+            'Content-type': 'application/json'
+        }
+    }
+
+  
+
+
+    const parameter = {
+
+        BrandIdArray: idArray,
+        CatId : catid,
+        RatingArray:ratingArray,
+        Min:parseInt(min),
+        Max:parseInt(max),
+      
+
+    }
+
+    const {data} = await axios.post(`/api/po/filter/`, parameter ,  config)
+
+    dispatch({
+        type:FILTER_DATA,
+        payload:data
+    })
+
+
+}
+
+
+
+
+
+
+
+
+
 
 
 
