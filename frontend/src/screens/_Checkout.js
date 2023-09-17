@@ -23,7 +23,14 @@ export default connect(mapStateToProps)(class CheckOut extends React.Component{
     
     }
 
+    oderItemSave = () =>{
 
+      store.dispatch(OrderItemSave())
+
+     
+
+
+    }
 
     render(){
 
@@ -253,7 +260,7 @@ export default connect(mapStateToProps)(class CheckOut extends React.Component{
                         <a href="#" class="btn btn-outline-gray-400 text-muted"
                           data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false"
                           aria-controls="flush-collapseThree">Prev</a>
-                        <a href="#" class="btn btn-primary ms-2" onClick={()=> store.dispatch(OrderItemSave())}>Place Order</a>
+                        <a href="#" class="btn btn-primary ms-2" onClick={this.oderItemSave}>Place Order</a>
                       </div>
                     </div>
                   </div>

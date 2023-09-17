@@ -21,6 +21,8 @@ class Product(models.Model):
     rating  = models.FloatField(default=0 , null=True , blank=True)
     categories = ArrayField(models.CharField(max_length=1000) , null=True , blank=True  )
     price  = models.IntegerField(default=0 , null=True , blank=True)
+    createdAt = models.DateField(auto_now_add=True , blank=True , null=True)
+    active = models.BooleanField(default=True, null=True,  blank=True)
     #product_image_id  = ArrayField(models.IntegerField(max_length=200) , null=True , blank=True)
 
     def __str__(self):

@@ -65,74 +65,8 @@ export default connect(mapStateToProps)(class Header extends React.Component {
 
                             </div>
 
-                            <div class="col-xxl-6 col-xl-8 col-lg-6 col-md-9">
-                                <form action="#">
-                                    <div class="input-group">
-                                        <input class="form-control" type="search" placeholder="Search for products"
-                                            aria-label="Recipient's username" aria-describedby="button-addon2" />
-                                        <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
-                                    </div>
-                                </form>
-
-
-
-                            </div>
-                            <div class="col-xxl-4 col-xl-2 col-lg-3 d-none d-lg-block">
-                                <div class="d-flex align-items-right  ms-14">
-                                    <div class="text-center">
-
-                                        <div class="dropdown">
-
-                                            <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" href="#offcanvasExample" role="button"
-                                            aria-controls="offcanvasRight" class="text-reset">
-                                                <div class="lh-1">
-                                                    <div class="position-relative d-inline-block mb-2">
-                                                    <i class="bi bi-cart2 fs-4"></i>
-                                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                                            {this.props.cart.length}
-                                                           
-                                                        </span>
-                                                    </div>
-                                                    <p class="mb-0 d-none d-xl-block small">Notification</p>
-                                                </div>
-                                            </a>
-
-                                            <div class="dropdown-menu dropdown-menu-lg p-0">
-                                                <div>
-                                                    <h6 class="px-4 border-bottom py-3 mb-0">Notification
-                                                    </h6>
-                                                    <p class="mb-0 px-4 py-3 "><a href="#">Sign in</a> or <a href="#">register</a> in or so you don t have
-                                                        to
-                                                        enter your details every time</p>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="ms-6 text-center">
-                                        <a href="#" class="text-reset" data-bs-toggle="modal" data-bs-target="#userModal">
-                                            <div class="lh-1">
-                                                <div class="mb-2">
-                                                    <i class="bi bi-person-circle fs-4"></i>
-
-                                                </div>
-                                                <p class="mb-0 d-none d-xl-block small">Sign up</p>
-                                            </div>
-                                        </a>
-                                    </div>
-                                   
-
-
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </header>
-
-
-                <nav class="navbar navbar-expand-lg navbar-light navbar-default p-0 p-sm-0 navbar-offcanvas-color "
+                            <div class="col-xxl-1 col-xl-1 col-lg-1 col-md-9">
+                            <nav class="navbar navbar-expand-lg navbar-light navbar-default p-0 p-sm-0 navbar-offcanvas-color "
                     aria-label="Offcanvas navbar large">
                     <div class="container">
 
@@ -156,7 +90,7 @@ export default connect(mapStateToProps)(class Header extends React.Component {
                                                         d="M2 12.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z">
                                                     </path>
                                                 </svg>
-                                                All Categories
+                                                Categories
                                             </a>
 
 
@@ -291,6 +225,79 @@ export default connect(mapStateToProps)(class Header extends React.Component {
                     </div >
                 </nav >
 
+
+
+
+                            </div>
+
+                            <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-9">
+                                <form action="#">
+                                    <div class="input-group">
+                                        <input class="form-control" type="search" placeholder="Search for products"
+                                            aria-label="Recipient's username" aria-describedby="button-addon2" />
+                                        <button class="btn btn-primary" type="button" id="button-addon2">Search</button>
+                                    </div>
+                                </form>
+
+
+
+                            </div>
+                            <div class="col-xxl-4 col-xl-2 col-lg-3 d-none d-lg-block">
+                                <div class="d-flex align-items-right  ms-14">
+                                    <div class="text-center">
+
+                                        <div class="dropdown">
+
+                                            <a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" href="#offcanvasExample" role="button"
+                                            aria-controls="offcanvasRight" class="text-reset">
+                                                <div class="lh-1">
+                                                    <div class="position-relative d-inline-block mb-2">
+                                                    <i class="bi bi-cart2 fs-4"></i>
+                                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                            {this.props.cart.length}
+                                                           
+                                                        </span>
+                                                    </div>
+                                                    <p class="mb-0 d-none d-xl-block small">Notification</p>
+                                                </div>
+                                            </a>
+
+                                            <div class="dropdown-menu dropdown-menu-lg p-0">
+                                                <div>
+                                                    <h6 class="px-4 border-bottom py-3 mb-0">Notification
+                                                    </h6>
+                                                    <p class="mb-0 px-4 py-3 "><a href="#">Sign in</a> or <a href="#">register</a> in or so you don t have
+                                                        to
+                                                        enter your details every time</p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ms-6 text-center">
+                                        <a href="#" class="text-reset" data-bs-toggle="modal" data-bs-target="#userModal">
+                                            <div class="lh-1">
+                                                <div class="mb-2">
+                                                    <i class="bi bi-person-circle fs-4"></i>
+
+                                                </div>
+                                                <p class="mb-0 d-none d-xl-block small">Sign up</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                   
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </header>
+
+
+               
 
 
 

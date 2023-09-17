@@ -8,11 +8,14 @@ export default class ProductCard extends React.Component {
 
     render() {
        
-
+        console.log(this.props.message)
 
 
         return (
             <>
+
+                {this.props.message !== null ? this.props.message : null}
+
                 {this.props.data == undefined ? null : this.props.data.map((data) => {
 
                     return (

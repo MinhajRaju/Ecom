@@ -96,3 +96,40 @@ def BulkDeleteSeller(request):
     serializer = SellerProfileSerializer(cporfile  , many=True).data
     return Response(serializer)
 
+
+
+@api_view(['GET','POST'])
+def SerllerProduct(request ):
+    seller = Seller_Profile.objects.get(id=1)
+
+    seller_product = Product.objects.filter(seller=seller)
+
+    serializer = ProductSerializer(seller_product ,many=True).data
+    return Response(serializer)
+
+
+
+@api_view(['GET','POST'])
+def BulkAction(request ):
+    print(request.data)
+    idArray = request.data['id']
+    flag = request.data['flag']
+
+    if flag =='delete':
+        for i in idArray:
+            Product.objects.get(id=i).delete()
+    if flag =='active':
+        for i in idArray:
+            Product.objects.filter(id=i).update(active=True)
+    if flag =='deactive':
+        for i in idArray:
+            Product.objects.filter(id=i).update(active=False)
+    
+    seller = Seller_Profile.objects.get(id=1)
+    seller_product = Product.objects.filter(seller=seller)
+    serializer = ProductSerializer(seller_product ,many=True).data
+    return Response(serializer)
+    
+
+
+    

@@ -13,5 +13,9 @@ urlpatterns = [
     path('bulkdelete/' , views.BulkDeleteSeller  , name='BulkDeleteSeller'),
 
 
+    path('sellerproduct/' , views.SerllerProduct , name='SerllerProduct'),
+    
+    path('bulkaction/' , views.BulkAction , name="BulkAction")
+
 
 ]

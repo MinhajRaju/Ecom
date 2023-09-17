@@ -411,6 +411,9 @@ export const FilterItemAction =  (idArray=[] ,catid , ratingArray=[] , min , max
 
     const {data} = await axios.post(`/api/po/filter/`, parameter ,  config)
 
+
+
+
     dispatch({
         type:FILTER_DATA,
         payload:data
@@ -573,7 +576,8 @@ export const OrderItemSave = () => async (dispatch , getState) => {
 
         await axios.post(`/api/po/orderitemsave/`, parameter,config)
 
-     
+        localStorage.removeItem('cartItems')
+        window.location.replace('/')
 
     }
     catch (error) {

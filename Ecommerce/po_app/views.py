@@ -28,9 +28,7 @@ import random
 
 
 
-
-
-
+#All Product 
 @api_view(['GET','POST'])
 def All(request):
     product = Product.objects.all()
@@ -40,13 +38,16 @@ def All(request):
 
 
 
-
+#Single Product
 @api_view(['GET','POST'])
 def SingleProduct(request , slug):
     product = Product.objects.get(slug=slug)
     serializer = ProductSerializer(product , many=False).data
     return Response(serializer)
 
+
+
+#All Images
 @api_view(['GET','POST'])
 def Image(request):
     product = Product_Image.objects.all()
